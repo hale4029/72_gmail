@@ -13,6 +13,6 @@ venv.bak/
 pip-selfcheck.json
 
 ### token and creds ###
-quickstart/credentials.json
-quickstart/token.pickle
+quickstart/lib/credentials.json
+quickstart/lib/token.pickle
 .DS_Store
