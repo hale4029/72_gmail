@@ -16,8 +16,6 @@ store_dir = '/Users/hlevin/SevenTwoPartners/gmail_py/'
 
 message_list = ListMessagesMatchingQuery(service, user_id, query, max_results)
 
-import pdb; pdb.set_trace()
-
 for id in message_list:
    GetAttachments(service, user_id, id['id'], store_dir)
 
