@@ -4,10 +4,6 @@ import email
 import urllib.error
 from apiclient import errors
 
-service = main()
-msg_id = '16fca5736f94c25b'
-user_id = 'me'
-
 def GetMessage(service, user_id, msg_id):
   """Get a Message with given ID.
 
@@ -23,7 +19,7 @@ def GetMessage(service, user_id, msg_id):
   try:
     message = service.users().messages().get(userId=user_id, id=msg_id).execute()
 
-    print ('Message snippet: %s' % message['snippet'])
+    #print ('Message snippet: %s' % message['snippet'])
 
     return message
   except urllib.error.HttpError as e:

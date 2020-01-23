@@ -4,9 +4,11 @@
 import base64
 from apiclient import errors
 import urllib.error
+from store_dir import FolderName
+import os
 
 
-def GetAttachments(service, user_id, msg_id, store_dir):
+def GetAttachments(service, user_id, msg_id):
   """Get and store attachment from Message with given id.
 
   Args:
@@ -36,7 +38,13 @@ def GetAttachments(service, user_id, msg_id, store_dir):
             else:
                 file_data = None
             if file_data:
-                #do some staff, e.g.
+                folder_name = FolderName(service, msg_id)
+                try:
+                    os.mkdir(f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}')
+                    store_dir = f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}/'
+                except OSError:
+                    store_dir = f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}/'
+
                 path = ''.join([store_dir, part['filename']])
                 with open(path, 'wb') as f:
                     f.write(file_data)

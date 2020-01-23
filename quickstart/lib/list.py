@@ -75,8 +75,3 @@ def ListMessagesWithLabels(service, user_id, label_ids=[]):
     return messages
   except urllib.error.HttpError as e:
     print ('An error occurred: %s' % error)
-
-# max = ListMessagesMatchingQuery(service, user_id='me', query='', max_results=10)
-# norm = ListMessagesMatchingQuery(service, user_id='me', query='')
-#
-# import pdb; pdb.set_trace()
