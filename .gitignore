@@ -16,3 +16,4 @@ pip-selfcheck.json
 quickstart/lib/credentials.json
 quickstart/lib/token.pickle
 .DS_Store
+quickstart/lib/__pycache__
