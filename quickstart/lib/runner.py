@@ -3,6 +3,7 @@ from list import ListMessagesMatchingQuery
 from time_stamp import *
 from quickstart import main
 from attachment import GetAttachments
+from message_parts import SendEmail
 
 service = main()
 time_stamp = PreviousTimeStamp()
@@ -12,7 +13,11 @@ user_id = 'me'
 
 message_list = ListMessagesMatchingQuery(service, user_id, query, max_results)
 
-for id in message_list:
-   GetAttachments(service, user_id, id['id'])
+SendEmail(service, message_list)
 
-UpdateTimeStamp()
+import pdb; pdb.set_trace()
+
+# for id in message_list:
+#    GetAttachments(service, user_id, id['id'])
+#
+# UpdateTimeStamp()

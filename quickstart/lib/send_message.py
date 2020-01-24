@@ -13,9 +13,11 @@ import urllib.error
 from apiclient import errors
 
 from quickstart import main
-from attachment import GetAttachments
-from message import GetMessage
-from message_parts import AttachmentQuerry
+#from attachment import GetAttachments
+#from message import GetMessage
+#from message_parts import AttachmentQuerry
+#import codecs
+
 
 
 def SendMessage(service, user_id, message):
@@ -51,7 +53,7 @@ def CreateMessage(sender, to, subject, message_text):
   Returns:
     An object containing a base64url encoded email object.
   """
-  message = MIMEText(message_text)
+  message = MIMEText(message_text, 'html')
   message['to'] = to
   message['from'] = sender
   message['subject'] = subject
@@ -62,19 +64,41 @@ def CreateMessage(sender, to, subject, message_text):
 
 
 
-service = main()
-sender = 'harrison483@gmail.com'
-to = 'harrison483@gmail.com'
-subject = 'Email Summary'
-
-message = GetMessage(service, 'me', '16fca5736f94c25b')
-headers = message['payload']['headers']
-
-email = list(filter(lambda x: 'From' in x['name'], headers)).pop()['value']
-snippet = message['snippet']
-attachment = AttachmentQuerry(message['payload'])
-
-message_text = f'From: {email}    Snippet: {snippet}    Attachment: {attachment}'
-
-message = CreateMessage(sender, to, subject, message_text)
-SendMessage(service, 'me', message)
+#def SendEmail(service, messages):
+#     service = main()
+#     sender = 'harrison483@gmail.com'
+#     to = 'harrison483@gmail.com'
+#     time = datetime.now()
+#     new_ts = time.strftime("%m/%d/%Y")
+#     subject = f'Email Summary: {new_ts}'
+#
+# def HtmlInserts(messages):
+#     #for message in messages:
+#     message = GetMessage(service, 'me', '16fca5736f94c25b')
+#     headers = message['payload']['headers']
+#     email = list(filter(lambda x: 'From' in x['name'], headers)).pop()['value']
+#     snippet = message['snippet']
+#     attachment = AttachmentQuerry(message['payload'])
+#
+#     email_text = f'{email}'
+#     snippet_text = f'{snippet}'
+#     attachment_text = f'{attachment}'
+#
+#     f = open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email_og.html", "r")
+#     contents = f.readlines()
+#     f.close()
+#
+#     contents.insert(265, email_text)
+#     contents.insert(285, snippet_text)
+#     contents.insert(307, attachment_text)
+#
+#     f = open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email.html", "w")
+#     contents = "".join(contents)
+#     f.write(contents)
+#     f.close()
+#
+#     f=codecs.open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email.html", 'r')
+#     message_text = f.read()
+#     f.close()
+#     message = CreateMessage(sender, to, subject, message_text)
+#     SendMessage(service, 'me', message)
