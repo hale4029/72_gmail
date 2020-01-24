@@ -15,9 +15,7 @@ message_list = ListMessagesMatchingQuery(service, user_id, query, max_results)
 
 SendEmail(service, message_list)
 
-import pdb; pdb.set_trace()
+for id in message_list:
+   GetAttachments(service, user_id, id['id'])
 
-# for id in message_list:
-#    GetAttachments(service, user_id, id['id'])
-#
-# UpdateTimeStamp()
+UpdateTimeStamp()
