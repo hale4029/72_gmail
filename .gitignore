@@ -17,3 +17,4 @@ quickstart/lib/credentials.json
 quickstart/lib/token.pickle
 .DS_Store
 quickstart/lib/__pycache__
+quickstart/email.html
