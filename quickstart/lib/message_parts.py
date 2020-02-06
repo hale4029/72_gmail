@@ -2,32 +2,34 @@ import urllib.error
 from datetime import datetime
 from message import GetMessage
 from send_message import CreateMessage, SendMessage
+from store_dir import FolderName
 import codecs
 
 
 def SendEmail(service, messages):
-    sender = 'harrison483@gmail.com'
-    to = 'harrison483@gmail.com'
+    sender = 'Managers@seventwopartners.com'
+    to = 'Managers@seventwopartners.com'
     time = datetime.now()
     new_ts = time.strftime("%m/%d/%Y")
     subject = f'Email Summary: {new_ts}'
 
     inserts = HtmlInserts(service, messages)
 
-    f = open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email_og.html", "r")
+    f = open("/Email_scrypt/72_gmail-master/quickstart/email_og.html", "r")
     contents = f.readlines()
     f.close()
 
-    contents.insert(265, inserts[0])
-    contents.insert(285, inserts[1])
-    contents.insert(307, inserts[2])
+    contents.insert(267, inserts[0])
+    contents.insert(295, inserts[1])
+    contents.insert(323, inserts[2])
+    contents.insert(351, inserts[3])
 
-    f = open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email.html", "w")
+    f = open("/Email_scrypt/72_gmail-master/quickstart/email.html", "w", encoding='utf-8')
     contents = "".join(contents)
     f.write(contents)
     f.close()
 
-    f=codecs.open("/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/email.html", 'r')
+    f=codecs.open("/Email_scrypt/72_gmail-master/quickstart/email.html", 'r', encoding='utf-8')
     message_text = f.read()
     f.close()
     message = CreateMessage(sender, to, subject, message_text)
@@ -36,24 +38,36 @@ def SendEmail(service, messages):
 
 def HtmlInserts(service, messages):
     email_tuple = []
-    snippet_tuple = []
+    subject_tuple = []
+    folder_tuple = []
     attachment_tuple = []
 
     for message in messages:
         message_data = GetMessage(service, 'me', message['id'])
         headers = message_data['payload']['headers']
-        email = list(filter(lambda x: 'From' in x['name'], headers)).pop()['value']
-        snippet = message_data['snippet']
+        try:
+            email = list(filter(lambda x: 'From' in x['name'], headers)).pop()['value']
+            subject = list(filter(lambda x: 'Subject' in x['name'], headers)).pop()['value'][:100]
+        except:
+            email = "Manager's Email"
+            subject = "N/A"
+
+        folder = FolderName(service, message['id'])
+        #import pdb; pdb.set_trace()
+        #folder = list(filter(lambda folder: folder[0] == message['id'], folder_data)).pop()
+        #snippet = message_data['snippet']
         attachment = AttachmentQuerry(message_data['payload'])
 
-        email_tuple.append(f'{email}<br>')
-        snippet_tuple.append(f'{snippet}<br>')
-        attachment_tuple.append(f'{attachment}<br>')
+        email_tuple.append(f'<p style="font-size: 14px; line-height: 1.2; mso-line-height-alt: 17px; margin: 0; max-height: 150px; min-height: 150px; max-width: 180px; vertical-align: middle">{email}</p>')
+        subject_tuple.append(f'<p style="font-size: 14px; line-height: 1.2; mso-line-height-alt: 17px; margin: 0; max-height: 150px; min-height: 150px; max-width: 180px; vertical-align: middle">{subject}</p>')
+        folder_tuple.append(f'<p style="font-size: 14px; line-height: 1.2; mso-line-height-alt: 17px; margin: 0; max-height: 150px; min-height: 150px; max-width: 180px; vertical-align: middle">{folder}</p>')
+        attachment_tuple.append(f'<p style="font-size: 14px; line-height: 1.2; mso-line-height-alt: 17px; margin: 0; max-height: 150px; min-height: 150px; max-width: 180px; vertical-align: middle">{attachment}</p>')
 
     email_text = ''.join(email_tuple)
-    snippet_text = ''.join(snippet_tuple)
+    subject_text = ''.join(subject_tuple)
+    folder_text = ''.join(folder_tuple)
     attachment_text = ''.join(attachment_tuple)
-    return email_text, snippet_text, attachment_text
+    return email_text, subject_text, folder_text, attachment_text
 
 
 def AttachmentQuerry(payload):
@@ -91,3 +105,5 @@ def AttachmentQuerry(payload):
               #         f.write(file_data)
     except urllib.error.HttpError as e:
       print ('An error occurred: %s' % error)
+    else:
+        return "No"

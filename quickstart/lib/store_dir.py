@@ -15,5 +15,6 @@ def FolderName(service, msg_id):
         label_id = list(filter(lambda x: 'Label' in x, message_labels)).pop()
         folder_name = list(filter(lambda label: label['id'] == label_id, labels)).pop()
         return folder_name['name']
+        #return [message['id'], folder_name['name']]
     except:
          return '_unassigned'

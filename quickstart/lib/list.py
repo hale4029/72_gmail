@@ -4,7 +4,7 @@ from quickstart import main
 from apiclient import errors
 import urllib.error
 
-service = main()
+#service = main()
 
 def ListMessagesMatchingQuery(service,
                               user_id='me',
@@ -26,22 +26,19 @@ def ListMessagesMatchingQuery(service,
   """
 
   try:
-    response = service.users().messages().list(userId=user_id,
-                                               q=query,
-                                               maxResults=max_results).execute()
-    messages = []
-    if 'messages' in response:
-      messages.extend(response['messages'])
+      response = service.users().messages().list(userId=user_id, q=query, maxResults=max_results).execute()
+      messages = []
+      if 'messages' in response:
+        messages.extend(response['messages'])
 
-    while 'nextPageToken' in response and max_results is None:
-      page_token = response['nextPageToken']
-      response = service.users().messages().list(userId=user_id, q=query,
-                                         pageToken=page_token).execute()
-      messages.extend(response['messages'])
-
-    return messages
+      while 'nextPageToken' in response and max_results is None:
+        page_token = response['nextPageToken']
+        response = service.users().messages().list(userId=user_id, q=query, pageToken=page_token).execute()
+        messages.extend(response['messages'])
+        
+      return messages
   except urllib.error.HttpError as e:
-    print ('An error occurred: %s' % error)
+        print ('An error occurred: %s' % error)
 
 
 def ListMessagesWithLabels(service, user_id, label_ids=[]):

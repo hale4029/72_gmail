@@ -32,3 +32,5 @@ def main():
             pickle.dump(creds, token)
 
     return build('gmail', 'v1', credentials=creds)
+
+main()

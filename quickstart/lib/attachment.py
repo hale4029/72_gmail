@@ -38,15 +38,20 @@ def GetAttachments(service, user_id, msg_id):
             else:
                 file_data = None
             if file_data:
-                folder_name = FolderName(service, msg_id)
+                folder_name = FolderName(service, msg_id).replace('/', '')
+                # folder_data = FolderName(service, msg_id)[1]
+                # folder_name = folder_data[1].replace('/', '')
                 try:
-                    os.mkdir(f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}')
-                    store_dir = f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}/'
+                    os.mkdir(f'C:/Users/info2/Seven Two Partners Dropbox/2. MANAGERS/Manager Email Attachments/{folder_name}')
+                    #os.mkdir(f'/Users/info2/Documents/attachments/{folder_name}')
+                    #store_dir = f'/Users/info2/Documents/attachments/{folder_name}/'
+                    store_dir = f'C:/Users/info2/Seven Two Partners Dropbox/2. MANAGERS/Manager Email Attachments/{folder_name}/'
                 except OSError:
-                    store_dir = f'/Users/hlevin/SevenTwoPartners/gmail_py/quickstart/attachments/{folder_name}/'
-
+                    store_dir = f'C:/Users/info2/Seven Two Partners Dropbox/2. MANAGERS/Manager Email Attachments/{folder_name}/'
+                    #store_dir = f'/Users/info2/Documents/attachments/{folder_name}/'
                 path = ''.join([store_dir, part['filename']])
                 with open(path, 'wb') as f:
                     f.write(file_data)
   except urllib.error.HttpError as e:
     print ('An error occurred: %s' % error)
+  #return folder_data
